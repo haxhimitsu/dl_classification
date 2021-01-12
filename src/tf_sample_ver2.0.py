@@ -4,8 +4,8 @@
 # author:"Haxhimitsu"
 # date  :"2021/01/06"
 # cite  :
-# python3 tf_sample_ver2.0.py  --train_path  ~/Desktop/dataset_smple/train/ --val_path ~/Desktop/dataset_smple/val/ --save_weight_name test --save_weight_path ./test --test_data_path ~/Desktop/dataset_smple/test/
-# sample:python3 imgtrim_gui_ver.2.0.py  --input_dir ../assets/original_img/cbn_test_01/ --output_dir ../assets/sample_output/  --trim_width 32 --trim_height 64
+# sample:python3 tf_sample_ver2.0.py  --train_path  ~/Desktop/dataset_smple/train/ --val_path ~/Desktop/dataset_smple/val/  --log_dir  ../test/ --test_data_path ~/Desktop/dataset_smple/test/
+
 #---------------------------------------------------------------
 
 import keras
