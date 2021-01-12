@@ -31,6 +31,7 @@ import copy
 import random
 import argparse
 
+#my module
 from utils.myutils import myutil
 
 myutil=myutil()
@@ -51,22 +52,23 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--train_path", help="path to folder containing images")
 parser.add_argument("--val_path",  help="set image size e.g.'0.5,0.8...'")
 parser.add_argument("--max_epochs", type =int ,default=100,help="set trim width")
-parser.add_argument("--save_weight_name", help="set trim height")
-parser.add_argument("--save_weight_path",  help="output path")
+parser.add_argument("--save_weight_name", type=str,default="test",help="set trim height")
 parser.add_argument("--test_data_path",  help="output path")
+parser.add_argument("--log_dir",  help="log_path")
 a = parser.parse_args()
 
-model_weight_path=a.save_weight_path
-myutil.create_directory(model_weight_path)
+log_dir=a.log_dir
+myutil.create_directory(log_dir)
 weight_filename=a.save_weight_name+".hdf5"
 max_epochs=a.max_epochs
 test_data_path=a.test_data_path
+
 
 print(len(os.listdir(a.train_path)))
 
 model=myutil.create_network(category_num=len(os.listdir(a.train_path)))
 try:
-    model.load_weights(os.path.join(model_weight_path,weight_filename))#学習結果がある場合，weightを読み込み
+    model.load_weights(os.path.join(log_dir,weight_filename))#学習結果がある場合，weightを読み込み
 except OSError:
     print(".h5 file not found")
     print("start loading the data set")
@@ -95,11 +97,11 @@ except OSError:
     history = model.fit(train_img, train_label, batch_size=20, epochs=max_epochs,
                     validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
     
-    model.save_weights(os.path.join(model_weight_path,weight_filename))#このコードがあるフォルダに重みを保存する
+    model.save_weights(os.path.join(log_dir,weight_filename))#このコードがあるフォルダに重みを保存する
     
     score = model.evaluate(val_img, val_label, verbose=0)
     print('Test loss :', score[0])
     print('Test accuracy :', score[1])
 
-myutil.check_acc(model,test_data_path)
+myutil.check_acc(model,test_data_path,log_dir)
 

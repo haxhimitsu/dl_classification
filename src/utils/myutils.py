@@ -120,10 +120,10 @@ class myutil:
         return TrainIMG,TrainLABEL,ValIMG,ValLABEL
 
 
-    def check_acc(self,model,test_img_path):
+    def check_acc(self,model,test_img_path,log_dir):
         result_count = []
         all_count = 0
-        
+
         img_dirs=os.listdir(test_img_path)
         for i,name in enumerate(img_dirs):
             result_count.append(0)
@@ -154,7 +154,17 @@ class myutil:
             all_count = 0
             for j, name in enumerate(img_dirs):
                 result_count[j] = 0
-
+        f = open(log_dir+'test_img_result.txt', 'w')
+        for i, d in enumerate(img_dirs):
+            files2 = os.listdir(test_img_path + d)
+            for f2 in files2:
+                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((32, 32)))
+                
+                y1 = model.predict(np.array([test_img / 255.])) #判別精度(確率)の表示
+                y2 = model.predict_classes(np.array([test_img / 255.])) #判別精度(ラベル)の表示
+                f.write(f2 + "\t" + str(y1) + "\t" + str(y2) +"\n")
+                #print(y)
+        f.close()
         print("check_accc")
 
 
