@@ -4,6 +4,7 @@
 # author:"Haxhimitsu"
 # date  :"2021/01/06"
 # cite  :
+# python3 tf_sample_ver2.0.py  --train_path  ~/Desktop/dataset_smple/train/ --val_path ~/Desktop/dataset_smple/val/ --save_weight_name test --save_weight_path ./test --test_data_path ~/Desktop/dataset_smple/test/
 # sample:python3 imgtrim_gui_ver.2.0.py  --input_dir ../assets/original_img/cbn_test_01/ --output_dir ../assets/sample_output/  --trim_width 32 --trim_height 64
 #---------------------------------------------------------------
 
@@ -51,13 +52,15 @@ parser.add_argument("--train_path", help="path to folder containing images")
 parser.add_argument("--val_path",  help="set image size e.g.'0.5,0.8...'")
 parser.add_argument("--max_epochs", type =int ,default=100,help="set trim width")
 parser.add_argument("--save_weight_name", help="set trim height")
-parser.add_argument("--save_weight_path",  help="output path",)
+parser.add_argument("--save_weight_path",  help="output path")
+parser.add_argument("--test_data_path",  help="output path")
 a = parser.parse_args()
 
 model_weight_path=a.save_weight_path
 myutil.create_directory(model_weight_path)
 weight_filename=a.save_weight_name+".hdf5"
 max_epochs=a.max_epochs
+test_data_path=a.test_data_path
 
 print(len(os.listdir(a.train_path)))
 
@@ -97,4 +100,6 @@ except OSError:
     score = model.evaluate(val_img, val_label, verbose=0)
     print('Test loss :', score[0])
     print('Test accuracy :', score[1])
+
+myutil.check_acc(model,test_data_path)
 

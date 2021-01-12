@@ -120,6 +120,46 @@ class myutil:
         return TrainIMG,TrainLABEL,ValIMG,ValLABEL
 
 
+    def check_acc(self,model,test_img_path):
+        result_count = []
+        all_count = 0
+        
+        img_dirs=os.listdir(test_img_path)
+        for i,name in enumerate(img_dirs):
+            result_count.append(0)
+        print("\t",end =" ")
+
+        for j, name in enumerate(img_dirs):
+            print(img_dirs[j] + "\t",end = "")
+        print("")
+
+        for i, d in enumerate(img_dirs):
+            files2 = os.listdir(test_img_path + d)
+            for f2 in files2:
+                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((32, 32)))
+                result = model.predict_classes(np.array([test_img / 255.]))
+                
+                all_count = all_count + 1
+                for j, name in enumerate(img_dirs):
+                    if result == j:
+                        result_count[j] = result_count[j] + 1
+            
+                #print(result)
+            
+            print(d + "\t",end="")
+            for j, name in enumerate(img_dirs):
+                print("{0:.2f}\t".format(result_count[j]/all_count*100),end="")
+            print("")
+
+            all_count = 0
+            for j, name in enumerate(img_dirs):
+                result_count[j] = 0
+
+        print("check_accc")
+
+
+
+
     def sayStr(self, str):
         print (str)
  
