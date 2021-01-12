@@ -1,11 +1,12 @@
+#!/usr/bin/env python3
 # coding: UTF-8
-##################################################################
-# memo
-#
-#ディレクトリ構成
-#
-##################################################################
 
+#---------------------------------------------------------------
+# author:"Haxhimitsu"
+# date  :"2021/01/06"
+# cite  :
+# sample:python3 imgtrim_gui_ver.2.0.py  --input_dir ../assets/original_img/cbn_test_01/ --output_dir ../assets/sample_output/  --trim_width 32 --trim_height 64
+#---------------------------------------------------------------
 import keras
 from keras.utils import np_utils
 from keras.layers.convolutional import Conv2D, MaxPooling2D
@@ -14,39 +15,40 @@ from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.preprocessing.image import array_to_img, img_to_array, load_img
 import keras.callbacks
 from keras.models import Sequential, model_from_json
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+from tensorflow.keras.callbacks import EarlyStopping
+
+
 import numpy as np
 #import pandas as pd
 #from sklearn.model_selection import train_test_split
 #import matplotlib.pyplot as plt
-
 import cv2
 import os
-
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
-# config = tf.ConfigProto()
-# config.gpu_options.per_process_gpu_memory_fraction = 0.5
-# set_session(tf.Session(config=config))
-
-from tensorflow.keras.callbacks import EarlyStopping
-
 import csv
 import copy
 import random
+import argparse
 
 #################setting GPU useage#####################
 
 config = tf.ConfigProto(
-      gpu_options=tf.GPUOptions(
-          per_process_gpu_memory_fraction=0.9, # 最大値の80%まで
-          allow_growth=True # True->必要になったら確保, False->全部
-      )
-    )
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.9, # 最大値の80%まで
+        allow_growth=True # True->必要になったら確保, False->全部
+      ))
 sess = sess = tf.Session(config=config)
 
 #####################################################
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--input_dir", help="path to folder containing images")
+parser.add_argument("--img_scale", type=float,default=1.0, help="set image size e.g.'0.5,0.8...'")
+parser.add_argument("--trim_width", type =int ,default=32,help="set trim width")
+parser.add_argument("--trim_height", type =int ,default=32,help="set trim height")
+parser.add_argument("--save_weight_path",  help="output path",)
+a = parser.parse_args()
 
 
 EPOCHS = 100
