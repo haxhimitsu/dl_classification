@@ -50,7 +50,7 @@ sess = sess = tf.Session(config=config)
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_path", help="path to folder containing images")
+parser.add_argument("--dataset_path",required=True,help="path to root dataset directory")
 parser.add_argument("--train_path",help="path to train_data")
 parser.add_argument("--val_path",  help="set image size e.g.'0.5,0.8...'")
 parser.add_argument("--max_epochs", type =int ,default=100,help="set trim width")
@@ -66,9 +66,10 @@ max_epochs=a.max_epochs
 
 if a.train_path is None:
     train_path=a.dataset_path+"trains/"
+    #print("train_path",train_path)
 else:
     train_path=a.train_path
-
+    #print("train_path",train_path)
 if a.val_path is None:
     val_path=a.dataset_path+"valids/"
 else:
@@ -77,7 +78,6 @@ if a.test_path is None:
     test_path=a.dataset_path+"tests/"
 else:
     test_path=a.test_path
-
 
 
 print(len(os.listdir(train_path)))
@@ -119,5 +119,7 @@ except OSError:
     print('Test loss :', score[0])
     print('Test accuracy :', score[1])
 
-myutil.check_acc(model,test_path,log_dir)
+    myutil.check_acc(model,test_path,log_dir)
+
+    del train_img,train_label,val_img,val_label
 
