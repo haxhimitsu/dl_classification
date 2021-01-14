@@ -50,11 +50,12 @@ sess = sess = tf.Session(config=config)
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--train_path", help="path to folder containing images")
+parser.add_argument("--dataset_path", help="path to folder containing images")
+parser.add_argument("--train_path",help="path to train_data")
 parser.add_argument("--val_path",  help="set image size e.g.'0.5,0.8...'")
 parser.add_argument("--max_epochs", type =int ,default=100,help="set trim width")
 parser.add_argument("--save_weight_name", type=str,default="test",help="set trim height")
-parser.add_argument("--test_data_path",  help="output path")
+parser.add_argument("--test_path",  help="output path")
 parser.add_argument("--log_dir",  help="log_path")
 a = parser.parse_args()
 
@@ -62,19 +63,33 @@ log_dir=a.log_dir
 myutil.create_directory(log_dir)
 weight_filename=a.save_weight_name+".hdf5"
 max_epochs=a.max_epochs
-test_data_path=a.test_data_path
+
+if a.train_path is None:
+    train_path=a.dataset_path+"trains/"
+else:
+    train_path=a.train_path
+
+if a.val_path is None:
+    val_path=a.dataset_path+"valids/"
+else:
+    val_path=a.val_path
+if a.test_path is None:
+    test_path=a.dataset_path+"tests/"
+else:
+    test_path=a.test_path
 
 
-print(len(os.listdir(a.train_path)))
 
-model=myutil.create_network(category_num=len(os.listdir(a.train_path)))
+print(len(os.listdir(train_path)))
+
+model=myutil.create_network(category_num=len(os.listdir(train_path)))
 try:
     model.load_weights(os.path.join(log_dir,weight_filename))#学習結果がある場合，weightを読み込み
 except OSError:
     print(".h5 file not found")
     print("start loading the data set")
 
-    train_img,train_label,val_img,val_label=myutil.create_dataset(a.train_path,a.val_path)
+    train_img,train_label,val_img,val_label=myutil.create_dataset(train_path,val_path)
 
     ###################EalyStopping#######################
     """
@@ -104,5 +119,5 @@ except OSError:
     print('Test loss :', score[0])
     print('Test accuracy :', score[1])
 
-myutil.check_acc(model,test_data_path,log_dir)
+myutil.check_acc(model,test_path,log_dir)
 
