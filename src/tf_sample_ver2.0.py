@@ -53,7 +53,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--dataset_path",required=True,help="path to root dataset directory")
 parser.add_argument("--train_path",help="path to train_data")
 parser.add_argument("--val_path",  help="set image size e.g.'0.5,0.8...'")
-parser.add_argument("--max_epochs", type =int ,default=100,help="set trim width")
+parser.add_argument("--max_epochs", type =int ,default=30,help="set trim width")
 parser.add_argument("--save_weight_name", type=str,default="test",help="set trim height")
 parser.add_argument("--test_path",  help="output path")
 parser.add_argument("--log_dir",  help="log_path")
@@ -101,7 +101,7 @@ except OSError:
     verbose='早期終了したかどうかをログで出力するか'
     """
     es = EarlyStopping(monitor='val_loss',
-                        patience=5,
+                        patience=10,
                         verbose=1)
 
     # コンパイル
@@ -110,9 +110,8 @@ except OSError:
     #####################################################
 
 
-    history = model.fit(train_img, train_label, batch_size=20, epochs=max_epochs,
-                    validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
-    
+    history = model.fit(train_img, train_label, batch_size=20, epochs=max_epochs,validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
+
     model.save_weights(os.path.join(log_dir,weight_filename))#このコードがあるフォルダに重みを保存する
     
     score = model.evaluate(val_img, val_label, verbose=0)
