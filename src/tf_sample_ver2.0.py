@@ -53,10 +53,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--dataset_path",required=True,help="path to root dataset directory")
 parser.add_argument("--train_path",help="path to train_data")
 parser.add_argument("--val_path",  help="path to val_data")
-parser.add_argument("--max_epochs", type =int ,default=30,help="set max epoch(int)")
+parser.add_argument("--max_epochs", type =int ,default=100,help="set max epoch(int)")
 parser.add_argument("--save_weight_name", type=str,default="test",help="set_network_weight_name")
 parser.add_argument("--test_path",  help="pat to test_path")
-parser.add_argument("--log_dir",  help="set_to_log_directory")
+parser.add_argument("--log_dir", required=True, help="set_to_log_directory")
 a = parser.parse_args()
 
 log_dir=a.log_dir
