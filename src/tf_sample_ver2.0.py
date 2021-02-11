@@ -101,7 +101,7 @@ except OSError:
     verbose='早期終了したかどうかをログで出力するか'
     """
     es = EarlyStopping(monitor='val_loss',
-                        patience=10,
+                        patience=20,
                         verbose=1)
 
     # コンパイル
