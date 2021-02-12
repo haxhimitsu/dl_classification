@@ -4,8 +4,8 @@
 # author:"Haxhimitsu"
 # date  :"2021/01/06"
 # cite  :
-# sample:python3 tf_sample_ver2.0.py  --train_path  ~/Desktop/dataset_smple/train/ --val_path ~/Desktop/dataset_smple/val/  --log_dir  ../test/ --test_data_path ~/Desktop/dataset_smple/test/
-
+#Usage
+# python3 src/tf_sample_ver2.0.py  --dataset_path "{your input directory}" --log_dir "{your output directry}
 #---------------------------------------------------------------
 
 import keras
@@ -21,9 +21,6 @@ from keras.backend.tensorflow_backend import set_session
 from tensorflow.keras.callbacks import EarlyStopping
 
 import numpy as np
-#import pandas as pd
-#from sklearn.model_selection import train_test_split
-#import matplotlib.pyplot as plt
 import cv2
 import os
 import csv
@@ -41,7 +38,7 @@ myutil.sayStr("Hello")
 
 #################setting GPU useage#####################
 config = tf.ConfigProto(
-    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.9, # 最大値の80%まで
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.8, # 最大値の80%まで
         allow_growth=True # True->必要になったら確保, False->全部
       ))
 sess = sess = tf.Session(config=config)
@@ -110,7 +107,7 @@ except OSError:
     #####################################################
 
 
-    history = model.fit(train_img, train_label, batch_size=20, epochs=max_epochs,validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
+    history = model.fit(train_img, train_label, batch_size=32, epochs=max_epochs,validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
 
     model.save_weights(os.path.join(log_dir,weight_filename))#このコードがあるフォルダに重みを保存する
     
