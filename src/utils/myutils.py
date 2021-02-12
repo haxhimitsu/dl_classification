@@ -40,7 +40,7 @@ class myutil:
     def create_network(self,category_num):
         model = Sequential()
 
-        model.add(Conv2D(32, (3, 3), padding='same',input_shape=(32,32,3)))
+        model.add(Conv2D(32, (3, 3), padding='same',input_shape=(64,64,3)))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Activation('relu'))
         model.add(Dropout(0.5))
@@ -50,7 +50,6 @@ class myutil:
         model.add(Activation('relu'))
         model.add(Dropout(0.5))
 
-        #CNN_weight_2_1の時はこの部分を使わない
         model.add(Conv2D(128, (3, 3), padding='same'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Activation('relu'))
@@ -84,12 +83,12 @@ class myutil:
             print(train_path+d)
             print(val_path+d)
             for f0 in files0:
-                img1 = img_to_array(load_img(train_path + d + '/' + f0,target_size=(32,32,3)))
+                img1 = img_to_array(load_img(train_path + d + '/' + f0,target_size=(64,64,3)))
                 TrainIMG.append(img1)
                 TrainLABEL.append(label)
     
             for f1 in files1:
-                img2 = img_to_array(load_img(val_path + d + '/' + f1,target_size=(32,32,3)))
+                img2 = img_to_array(load_img(val_path + d + '/' + f1,target_size=(64,64,3)))
                 ValIMG.append(img2)
                 ValLABEL.append(label)
 
@@ -136,7 +135,7 @@ class myutil:
         for i, d in enumerate(img_dirs):
             files2 = os.listdir(test_img_path + d)
             for f2 in files2:
-                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((32, 32)))
+                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((64, 64)))
                 result = model.predict_classes(np.array([test_img / 255.]))
                 
                 all_count = all_count + 1
@@ -158,7 +157,7 @@ class myutil:
         for i, d in enumerate(img_dirs):
             files2 = os.listdir(test_img_path + d)
             for f2 in files2:
-                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((32, 32)))
+                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((64, 64)))
                 
                 y1 = model.predict(np.array([test_img / 255.])) #判別精度(確率)の表示
                 y2 = model.predict_classes(np.array([test_img / 255.])) #判別精度(ラベル)の表示
