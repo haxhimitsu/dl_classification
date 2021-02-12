@@ -21,7 +21,7 @@
 ```
 * input image type
 
-  3ch(color), height : 32, width : 32
+  3ch(color), height : 64, width : 64
 
   32pixel 以上の画像を使用する時は，データをtensorflowで読み込む時に自動でリサイズされる．
 
