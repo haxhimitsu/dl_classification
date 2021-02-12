@@ -51,6 +51,7 @@ parser.add_argument("--dataset_path",required=True,help="path to root dataset di
 parser.add_argument("--train_path",help="path to train_data")
 parser.add_argument("--val_path",  help="path to val_data")
 parser.add_argument("--max_epochs", type =int ,default=100,help="set max epoch(int)")
+parser.add_argument("--batch_size", type =int ,default=32,help="set batch size 2,4,6,8,..")
 parser.add_argument("--save_weight_name", type=str,default="test",help="set_network_weight_name")
 parser.add_argument("--test_path",  help="pat to test_path")
 parser.add_argument("--log_dir", required=True, help="set_to_log_directory")
@@ -107,7 +108,7 @@ except OSError:
     #####################################################
 
 
-    history = model.fit(train_img, train_label, batch_size=32, epochs=max_epochs,validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
+    history = model.fit(train_img, train_label, batch_size=a.batch_size, epochs=max_epochs,validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
 
     model.save_weights(os.path.join(log_dir,weight_filename))#このコードがあるフォルダに重みを保存する
     
