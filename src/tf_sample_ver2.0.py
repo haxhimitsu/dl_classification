@@ -91,7 +91,7 @@ try:
     print('Test loss :', score[0])
     print('Test accuracy :', score[1])
     print("pass check_acc")
-    result=myutil.check_acc(model,test_path,log_dir)
+    result=myutil.acc2(model,test_path,log_dir)
     print("pass check_acc")
 
 except OSError:

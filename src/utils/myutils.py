@@ -169,7 +169,7 @@ class myutil:
     def acc2(self,model,test_img_path,log_dir):
         score=[]
         print("hoge1")
-        test_img_path="./tests/01_03/"
+        test_img_path="./202010210_01_03_hconcat/"
         print(test_img_path)
         img_dirs=os.listdir(test_img_path)
         print(img_dirs)
@@ -191,7 +191,7 @@ class myutil:
         print("label1",(len(label1)/len(score))*100)
         print("label2",(len(label2)/len(score))*100)
         print("label3",(len(label3)/len(score))*100)
-        print(score)
+        #print(score)
         return
 
 
