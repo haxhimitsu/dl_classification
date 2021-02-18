@@ -83,6 +83,17 @@ print(len(os.listdir(train_path)))
 model=myutil.create_network(category_num=len(os.listdir(train_path)))
 try:
     model.load_weights(os.path.join(log_dir,weight_filename))#学習結果がある場合，weightを読み込み
+    print("load model")
+    model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
+    train_img,train_label,val_img,val_label=myutil.create_dataset(train_path,val_path)
+
+    score = model.evaluate(val_img, val_label, verbose=0)
+    print('Test loss :', score[0])
+    print('Test accuracy :', score[1])
+    print("pass check_acc")
+    result=myutil.check_acc(model,test_path,log_dir)
+    print("pass check_acc")
+
 except OSError:
     print(".h5 file not found")
     print("start loading the data set")

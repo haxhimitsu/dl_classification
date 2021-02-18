@@ -165,6 +165,34 @@ class myutil:
                 #print(y)
         f.close()
         print("check_accc")
+    
+    def acc2(self,model,test_img_path,log_dir):
+        score=[]
+        print("hoge1")
+        test_img_path="./tests/01_03/"
+        print(test_img_path)
+        img_dirs=os.listdir(test_img_path)
+        print(img_dirs)
+
+        # for i, d in enumerate(img_dirs):
+        #     files2 = os.listdir(test_img_path + d)
+        # #test_img_path="~/Desktop/nagase_1200_20201021_trim/dataset_06_tmp/tests/0100_0201"
+        #     print(test_img_path)
+        for f2 in range(len(img_dirs)):
+            #print(test_img_path+f2)
+            test_img = np.array(load_img(test_img_path + img_dirs[f2]).resize((64, 64)))
+            result = model.predict_classes(np.array([test_img / 255.]))
+            score.append(result)
+        label0 = [i for i in score if i == 0]
+        label1 = [i for i in score if i == 1]
+        label2 = [i for i in score if i == 2]
+        label3 = [i for i in score if i == 3]
+        print("label0",(len(label0)/len(score))*100)
+        print("label1",(len(label1)/len(score))*100)
+        print("label2",(len(label2)/len(score))*100)
+        print("label3",(len(label3)/len(score))*100)
+        print(score)
+        return
 
 
 
