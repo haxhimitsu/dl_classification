@@ -1,8 +1,25 @@
 
 # Tensorflow image classification 
+GPUの認識やmnistの画像分類．
 簡単な画像分類を行うやつ．
 
-# General specification
+# gpuの動作確認
+* useage
+ ```
+python3 src/gpu_test_01.py --checktype 1
+```
+```python3 src/gput_test_01.py -h```でその他の引数を見れる．
+
+ ```--checktype 1```
+GPUを使って行列計算を行う．
+
+ ```--checktype 2```
+GPUがtensorflow で認識されているかの確認．
+
+ ```--checktype 3```
+mnistで簡単な画像分類を学習．
+
+# 画像分類
 * datasetの構成
 ```python
 --dataset
@@ -26,16 +43,16 @@
   64pixel 以上の画像を使用する時は，データをtensorflowで読み込む時に自動でリサイズされる．
 
 * log directoryは自動的に作成される．logには，重みファイルと，テスト用画像の評価結果が保存されている．
-* 学習済みの重みファイルがlogdiretoryに存在する場合，学習は行わず評価シーケンスのみを行う．再度学習させたい時は，重みファイルを消去する．
+* 学習済みの重みファイルがlog　diretoryに存在する場合，学習は行わず評価シーケンスのみを行う．再度学習させたい時は，重みファイルを消去する．
   
 
-# Usage
+## Usage
 ```python3
 python3 src/tf_sample_ver2.0.py  --dataset_path "{your input directory}" --log_dir "{your output directry}"
 ```
 ```python3 src/tf_sample_ver2.0.py -h```でその他の引数を見れる．以下は主要な引数．
-* --max_epochs : type =int, default=100
-* --save_weight_name : type=str,default="test"
+* ```--max_epochs``` : type =int, default=100
+* ```--save_weight_name``` : type=str,default="test"
 
 # Requirement
 ## Envioroments
