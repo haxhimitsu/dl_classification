@@ -50,21 +50,19 @@ mnistで簡単な画像分類を学習．
 ```python3
 python3 src/tf_sample_ver2.0.py  --dataset_path "{your input directory}" --log_dir "{your output directry}"
 ```
-```python3 src/tf_sample_ver2.0.py -h```でその他の引数を見れる．以下は主要な引数．
-* ```--max_epochs``` : type =int, default=100
-* ```--save_weight_name``` : type=str,default="test"
+- ```python3 src/tf_sample_ver2.0.py -h```でその他の引数を見れる．以下は主要な引数．
+    * ```--max_epochs``` : type =int, default=100
+    * ```--save_weight_name``` : type=str,default="test"
 
 
 * log directoryは自動的に作成される．logには，重みファイルと，テスト用画像の評価結果が保存されている．
 * 学習済みの重みファイルがlog　diretoryに存在する場合，学習は行わず評価シーケンスのみを行う．再度学習させたい時は，重みファイルを消去する．
 
 * networkの詳細
+    - ```src/utils/myutils.py```内の```def create_network(self,category_num)```が該当する．
+    - ```category_num```は分類数．データセットのclass数から算出している．
 
- ```src/utils/myutils.py```内の```def create_network(self,category_num)```が該当する．
-
- ```category_num```は分類数．データセットのclass数から算出している．
-
- ```input_shape=(32,32,3)```で画像サイズを指定している```(width,height,channel)```の順番．
+    - ```input_shape=(32,32,3)```で画像サイズを指定している```(width,height,channel)```の順番．
 
 
 # Requirement
