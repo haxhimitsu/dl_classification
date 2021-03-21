@@ -147,50 +147,69 @@ class myutil:
 
         return TrainIMG,TrainLABEL,ValIMG,ValLABEL
 
+    """
+    # function      : check acc
+    # input arg     : test image path,log directory 
+    # output        : test image predict label, score 
+    # func detail   : 
+    # test image path example test/class1/01.png
+    #                                    /02.png
+    #                                    /03.png
 
+    #                         test/class2/01.png
+    #                                    /02.png
+    #                                    /03.png
+    #                         test/class3/01.png
+    #                                    /02.png
+    #                                    /03.png    
+    """
     def check_acc(self,model,test_img_path,log_dir):
         result_count = []
         all_count = 0
-
-        img_dirs=os.listdir(test_img_path)
+        
+       
+        img_dirs=os.listdir(test_img_path) #test_img_path->test/ 
+        #img_dirs->[class1,class2,class3]
         for i,name in enumerate(img_dirs):
-            result_count.append(0)
+            result_count.append(0)#classの個数だけresult_contのlistに0を追加
         print("\t",end =" ")
 
-        for j, name in enumerate(img_dirs):
+        for j, name in enumerate(img_dirs)#各classを表示
             print(img_dirs[j] + "\t",end = "")
         print("")
 
         for i, d in enumerate(img_dirs):
-            files2 = os.listdir(test_img_path + d)
+            files2 = os.listdir(test_img_path + d)#files2->test/class1/
             for f2 in files2:
-                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((64, 64)))
-                result = model.predict_classes(np.array([test_img / 255.]))
+                test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((64, 64)))#load img->test/class1/01.png
+                result = model.predict_classes(np.array([test_img / 255.]))#normalize and predict
                 
-                all_count = all_count + 1
-                for j, name in enumerate(img_dirs):
-                    if result == j:
-                        result_count[j] = result_count[j] + 1
+                all_count = all_count + 1#全カウントをインクリメント
+                for j, name in enumerate(img_dirs)#enumerate(img_dirs)->count of img dirs list->[class1,class2,class3]->0-2までの3(int)
+                    if result == j:#result->model predicted class, j->current class label
+                        result_count[j] = result_count[j] + 1#予測ラベルと正解ラベルが同じラベルの場合インクリメント
             
                 #print(result)
             
             print(d + "\t",end="")
             for j, name in enumerate(img_dirs):
-                print("{0:.2f}\t".format(result_count[j]/all_count*100),end="")
+                print("{0:.2f}\t".format(result_count[j]/all_count*100),end="")#正答率を表示
             print("")
 
-            all_count = 0
+            all_count = 0#カウントをリセット　
             for j, name in enumerate(img_dirs):
-                result_count[j] = 0
-        f = open(log_dir+'test_img_result.txt', 'w')
+                result_count[j] = 0#カウントをリセット
+            #next->#files2->test/class2/
+        ##csv形式で各画像の予測ラベルを保存####  
+        f = open(log_dir+'test_img_result.txt', 'w')#open file ->logdir/test_img_result.txt
         for i, d in enumerate(img_dirs):
-            files2 = os.listdir(test_img_path + d)
-            for f2 in files2:
+            files2 = os.listdir(test_img_path + d)#test_img_path->test/class1/ 
+            for f2 in files2:#f2->[01.png,02.pmg,...]
                 test_img = np.array(load_img(test_img_path + d + '/' + f2).resize((64, 64)))
-                
+                #test_img_path + d + '/' + f2->test/class1/01.png
                 y1 = model.predict(np.array([test_img / 255.])) #判別精度(確率)の表示
                 y2 = model.predict_classes(np.array([test_img / 255.])) #判別精度(ラベル)の表示
-                f.write(f2 + "\t" + str(y1) + "\t" + str(y2) +"\n")
+                f.write(f2 + "\t" + str(y1) + "\t" + str(y2) +"\n")#write file ->img.name,[判別精度(確率)],#判別精度(ラベル)
                 #print(y)
         f.close()
         print("check_accc")
@@ -199,7 +218,7 @@ class myutil:
     # function      : acc2
     # input arg     : network model, test img data path, log save directory
     # output        : none
-    # func detail   : テスト画像を読み込み，学習したネットワークで分類をする
+    # func detail   : テスト画像のディレクトリを読み込み，学習したネットワークで分類をする
     #                 各々の正解ラベルに対する正答率を算出する
     # testdata_architecture :test_img_path->test/class1/
     """
@@ -213,13 +232,13 @@ class myutil:
         for f2 in range(len(img_dirs)):
             #print(test_img_path+f2)
             test_img = np.array(load_img(test_img_path + img_dirs[f2]).resize((64, 64)))
-            result = model.predict_classes(np.array([test_img / 255.]))
+            result = model.predict_classes(np.array([test_img / 255.]))#predict class
             score.append(result)
-        label0 = [i for i in score if i == 0]
+        label0 = [i for i in score if i == 0]#resultのうち0だった場合の個数をカウント
         label1 = [i for i in score if i == 1]
         label2 = [i for i in score if i == 2]
         label3 = [i for i in score if i == 3]
-        print("label0",(len(label0)/len(score))*100)
+        print("label0",(len(label0)/len(score))*100)#labelが0/ラベルの総数の割合を表示
         print("label1",(len(label1)/len(score))*100)
         print("label2",(len(label2)/len(score))*100)
         print("label3",(len(label3)/len(score))*100)
