@@ -26,23 +26,33 @@ import os
 class myutil:
 
     """
-    # function      : careate  directry
-    # input arg     : directry path
+    # function      : careate  directory
+    # input arg     : directory path
     # output        : none
-    # func detail   : if not already exsits arg directry path,this function create directry.
+    # func detail   : if not already exist argument directory path,this function create directory.
     """
     def create_directory(self,directory_path):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
         else:
-            print("already exsists"+directory_path)
-
+            print("already exists"+directory_path)
+    """
+    # function      : create network
+    # input arg     : category number
+    # output        : network model
+    # func detail   : please following comments
+    """
     def create_network(self,category_num):
         model = Sequential()
 
+        #Conv2D 
+        #input shape(width,height,channel)
+        #filter (3,3) 16channel
         model.add(Conv2D(32, (3, 3), padding='same',input_shape=(64,64,3)))
+        #Downsamples the input representation by taking the maximum by pool_size
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Activation('relu'))
+        #randomly sets input units to 0, which helps prevent overfitting.
         model.add(Dropout(0.5))
 
         model.add(Conv2D(64, (3, 3), padding='same'))
@@ -65,7 +75,12 @@ class myutil:
         #model.summary()
 
         return model
-
+    """
+    # function      : create dataset
+    # input arg     : train data path,validation data path
+    # output        : train img,train label,validation img,validation label
+    # func detail   : please following comments
+    """
     def create_dataset(self,train_path,val_path):
 
         TrainIMG = []
@@ -75,30 +90,44 @@ class myutil:
         TestIMG = []
         TestLABEL = []
         label =0
-
+        """
+        #trainディレクトリ内のディレクトリをリストで取得
+        train--class1
+             --class2
+             --class3
+        ->[class1,class2,class3]
+        """
         img_dirs=os.listdir(train_path)
-        for i, d in enumerate(img_dirs):
+
+        for i, d in enumerate(img_dirs):#classごとに画像を読み込んでいく
             files0 = os.listdir(train_path+ d)
             files1 = os.listdir(val_path+ d)
-            print(train_path+d)
-            print(val_path+d)
-            for f0 in files0:
+            print(train_path+d)#print->train/class1
+            print(val_path+d)#print->val/class1
+            for f0 in files0:#class内の画像を順番に読み込む
+                #load_img->train/class1/picturename.png
                 img1 = img_to_array(load_img(train_path + d + '/' + f0,target_size=(64,64,3)))
+                #train imgのlistに追加
                 TrainIMG.append(img1)
+                #train labelのlistに追加
                 TrainLABEL.append(label)
-    
+
             for f1 in files1:
                 img2 = img_to_array(load_img(val_path + d + '/' + f1,target_size=(64,64,3)))
                 ValIMG.append(img2)
                 ValLABEL.append(label)
-
+            #1class読み込みが終わったらlabelをインクリメント
+            #次は，train/class2 を読み込んでいく
             label = label + 1
             print("now:" + img_dirs[i])
-
-        TrainIMG = np.asarray(TrainIMG)
+        
+        #tensor flowの入力に合わせるためにデータを整える
+        TrainIMG = np.asarray(TrainIMG)#np.asarrayに変換
         TrainLABEL = np.asarray(TrainLABEL)
-        TrainIMG = TrainIMG.astype('float32')
-        TrainIMG = TrainIMG / 255.0
+        TrainIMG = TrainIMG.astype('float32')#float32に変換
+        TrainIMG = TrainIMG / 255.0#0~255に正規化
+        #ラベルを数値ではなく,0or1を要素に持つベクトルで表現
+        #ラベルが 1の場合[0, 1, 0]
         TrainLABEL = np_utils.to_categorical(TrainLABEL, label)
 
         ValIMG = np.asarray(ValIMG)
@@ -165,15 +194,24 @@ class myutil:
                 #print(y)
         f.close()
         print("check_accc")
-    
+
+     """
+    # function      : acc2
+    # input arg     : network model, test img data path, log save directory
+    # output        : none
+    # func detail   : テスト画像を読み込み，学習したネットワークで分類をする．
+    #                 各々の正解ラベルに対する正答率を算出する
+    # testdata_architecture :test--class1
+    #                            --class2
+    #                            --class3
+    """
     def acc2(self,model,test_img_path,log_dir):
         score=[]
-        print("hoge1")
-        test_img_path="./202010210_01_03_hconcat/"
+        test_img_path=test_img_path
         print(test_img_path)
-        img_dirs=os.listdir(test_img_path)
+        img_dirs=os.listdir(test_img_path)#->
         print(img_dirs)
-
+        
         # for i, d in enumerate(img_dirs):
         #     files2 = os.listdir(test_img_path + d)
         # #test_img_path="~/Desktop/nagase_1200_20201021_trim/dataset_06_tmp/tests/0100_0201"
