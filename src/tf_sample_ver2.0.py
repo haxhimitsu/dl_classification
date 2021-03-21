@@ -95,8 +95,8 @@ try:
     print('Test loss :', score[0])
     print('Test accuracy :', score[1])
     print("pass check_acc")
-    #result=myutil.acc2(model,test_path,log_dir)#myutil.acc2でtestを使って評価
-    myutil.check_acc(model,test_path,log_dir)
+    myutil.check_acc(model,test_path,log_dir)#test/の各クラスを，myutil.check_accで評価
+    #result=myutil.acc2(model,test_path,log_dir)  #myutil.acc2を使う場合，testpathは単一のディレクトリを指定する->test/class1/
     print("pass check_acc")
 
 except OSError:
