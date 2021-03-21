@@ -195,7 +195,7 @@ class myutil:
         f.close()
         print("check_accc")
 
-     """
+    """
     # function      : acc2
     # input arg     : network model, test img data path, log save directory
     # output        : none
