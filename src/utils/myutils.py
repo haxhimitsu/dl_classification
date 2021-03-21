@@ -199,23 +199,17 @@ class myutil:
     # function      : acc2
     # input arg     : network model, test img data path, log save directory
     # output        : none
-    # func detail   : テスト画像を読み込み，学習したネットワークで分類をする．
+    # func detail   : テスト画像を読み込み，学習したネットワークで分類をする
     #                 各々の正解ラベルに対する正答率を算出する
-    # testdata_architecture :test--class1
-    #                            --class2
-    #                            --class3
+    # testdata_architecture :test_img_path->test/class1/
     """
     def acc2(self,model,test_img_path,log_dir):
         score=[]
         test_img_path=test_img_path
         print(test_img_path)
-        img_dirs=os.listdir(test_img_path)#->
+        img_dirs=os.listdir(test_img_path)#->[test/class1/00.png,test/class1/01.png,.....]
         print(img_dirs)
-        
-        # for i, d in enumerate(img_dirs):
-        #     files2 = os.listdir(test_img_path + d)
-        # #test_img_path="~/Desktop/nagase_1200_20201021_trim/dataset_06_tmp/tests/0100_0201"
-        #     print(test_img_path)
+
         for f2 in range(len(img_dirs)):
             #print(test_img_path+f2)
             test_img = np.array(load_img(test_img_path + img_dirs[f2]).resize((64, 64)))
