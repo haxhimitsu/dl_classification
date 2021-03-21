@@ -174,7 +174,7 @@ class myutil:
             result_count.append(0)#classの個数だけresult_contのlistに0を追加
         print("\t",end =" ")
 
-        for j, name in enumerate(img_dirs)#各classを表示
+        for j, name in enumerate(img_dirs):#j->countclass,name->[class1,class2,class3]
             print(img_dirs[j] + "\t",end = "")
         print("")
 
@@ -185,7 +185,7 @@ class myutil:
                 result = model.predict_classes(np.array([test_img / 255.]))#normalize and predict
                 
                 all_count = all_count + 1#全カウントをインクリメント
-                for j, name in enumerate(img_dirs)#enumerate(img_dirs)->count of img dirs list->[class1,class2,class3]->0-2までの3(int)
+                for j, name in enumerate(img_dirs):#enumerate(img_dirs)->count of img dirs list->[class1,class2,class3]->0-2までの3(int)
                     if result == j:#result->model predicted class, j->current class label
                         result_count[j] = result_count[j] + 1#予測ラベルと正解ラベルが同じラベルの場合インクリメント
             
