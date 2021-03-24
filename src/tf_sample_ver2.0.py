@@ -61,6 +61,7 @@ a = parser.parse_args()
 
 log_dir=a.log_dir
 myutil.create_directory(log_dir)#instance from myutil
+print("log_dir=",log_dir)
 weight_filename=a.save_weight_name+".hdf5"#add save file name extention
 max_epochs=a.max_epochs
 
