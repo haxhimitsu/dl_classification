@@ -56,6 +56,7 @@ parser.add_argument("--test_path",  help="pat to test_path")
 parser.add_argument("--max_epochs", type =int ,default=100,help="set max epoch(int)")
 parser.add_argument("--batch_size", type =int ,default=32,help="set batch size 2,4,6,8,..")
 parser.add_argument("--save_weight_name", type=str,default="test",help="set_network_weight_name")
+parser.add_argument("--save_json_name", type=str,default="test",help="set_json_name")
 parser.add_argument("--log_dir", required=True, help="set_to_log_directory")
 a = parser.parse_args()
 
@@ -63,6 +64,7 @@ log_dir=a.log_dir
 myutil.create_directory(log_dir)#instance from myutil
 print("log_dir=",log_dir)
 weight_filename=a.save_weight_name+".hdf5"#add save file name extention
+json_filename=a.save_json_name+".json"
 max_epochs=a.max_epochs
 
 if a.train_path is None:#trainpathが引数で指定されていない場合，デフォルトでdataset_path/trains/を参照 
@@ -128,6 +130,8 @@ except OSError:
     history = model.fit(train_img, train_label, batch_size=a.batch_size, epochs=max_epochs,validation_data = (val_img, val_label), verbose = 1,callbacks=[es])#学習開始　パラメータは名前から察して
 
     model.save_weights(os.path.join(log_dir,weight_filename))#このコードがあるフォルダに重みを保存する
+    json_dir=log_dir+"/"+json_filename#set json save path
+    open(json_dir,"w").write(model.to_json())#save model as json
     
     score = model.evaluate(val_img, val_label, verbose=0)
     print('Test loss :', score[0])
