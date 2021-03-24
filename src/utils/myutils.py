@@ -72,7 +72,7 @@ class myutil:
         model.add(Dense(category_num))  #分類数を決めている
         model.add(Activation('softmax'))
 
-        #model.summary()
+        model.summary()
 
         return model
     """
@@ -98,7 +98,7 @@ class myutil:
         ->[class1,class2,class3]
         """
         img_dirs=os.listdir(train_path)
-
+        print("img_dirs",img_dirs)
         for i, d in enumerate(img_dirs):#classごとに画像を読み込んでいく
             files0 = os.listdir(train_path+ d)
             files1 = os.listdir(val_path+ d)
